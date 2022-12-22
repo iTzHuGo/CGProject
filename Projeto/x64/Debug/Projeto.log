@@ -1,0 +1,4 @@
+﻿  Projeto.cpp
+C:\Users\hugos\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(68,26): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+C:\Users\hugos\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(68,53): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+LINK : fatal error LNK1104: cannot open file 'glut32.lib'
