@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <GL\glut.h>
+#include "RgbImage.h"
 
 //--------------------------------- Definir cores
 #define BLUE 0.0, 0.0, 1.0, 1.0
@@ -27,32 +28,32 @@ float yWindows = 0.7;
 
 GLfloat tam = 0.5;
 static GLfloat vertices[] = {
-	//…………………………………………………………………………………………………… Esquerda
+	//--------------------------------- Esquerda
 	-tam, -tam, tam,  // 0
 	-tam, tam, tam,	  // 1
 	-tam, tam, -tam,  // 2
 	-tam, -tam, -tam, // 3
-					  //…………………………………………………… Direita
+					  //--------------------- Direita
 	tam, -tam, tam,	  // 4
 	tam, tam, tam,	  // 5
 	tam, tam, -tam,	  // 6
 	tam, -tam, -tam,  // 7
-					  //……………………………………………………… Cima
+					  //--------------------- Cima
 	-tam, tam, tam,	  // 8
 	-tam, tam, -tam,  // 9
 	tam, tam, -tam,	  // 10
 	tam, tam, tam,	  // 11
-					  //……………………………………………………… Tras
+					  //--------------------- Tras
 	-tam, tam, -tam,  // 12
 	tam, tam, -tam,	  // 13
 	tam, -tam, -tam,  // 14
 	-tam, -tam, -tam, // 15
-					  //……………………………………………………… Frente
+					  //--------------------- Frente
 	-tam, tam, tam,	  // 16
 	tam, tam, tam,	  // 17
 	tam, -tam, tam,	  // 18
 	-tam, -tam, tam,  // 19
-					  //……………………………………………………… Baixo
+					  //--------------------- Baixo
 	-tam, -tam, tam,  // 20
 	-tam, -tam, -tam, // 21
 	tam, -tam, -tam,  // 22
@@ -65,6 +66,20 @@ static GLuint cima[] = {8, 11, 10, 9};
 static GLuint tras[] = {12, 13, 14, 15};
 static GLuint frente[] = {19, 18, 17, 16};
 static GLuint baixo[] = {20, 23, 22, 21};
+
+static GLfloat texturas[] = {
+0, 0, 
+1, 0, 
+1, 1, 
+0, 1, 
+0, 0,
+1, 0,
+1, 1,
+0, 1,
+0, 0,
+1, 0,
+1, 1,
+0, 1 };
 
 //------------------------------------------------------------ Sistema Coordenadas + objectos
 GLint wScreen = 800, hScreen = 600;		 //.. janela
@@ -86,18 +101,58 @@ GLint wheelsRotation = 0;
 GLfloat altura = 0;
 GLfloat incALT = 0.03;
 
+//------------------------------------------------------------ Texturas
+RgbImage imag;
 
-//================================================================================
-//=========================================================================== INIT
+//------------------------------------------------------------ Skybox
+GLUquadricObj* esfera = gluNewQuadric();
 
+GLuint texture[1];
+
+
+//=================================================================================
+//====================================== INIT =====================================
+//=================================================================================
+
+void initTexturas()
+{
+	//----------------------------------------- Esfera - skybox envolvente
+	glGenTextures(1, &texture[0]);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	imag.LoadBmpFile("sky.bmp");
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3,
+		imag.GetNumCols(),
+		imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+		imag.ImageData());
+}
+
+//------------------------------------------------------------ Inicializadores
 void init(void)
 {
-	glClearColor(WHITE);	 //………………………………………………………………………………Apagar
-	glShadeModel(GL_SMOOTH); //………………………………………………………………………………Interpolacao de cores
-	glEnable(GL_DEPTH_TEST); //………………………………………………………………………………Profundidade
+	glClearColor(WHITE);	 //------------------------------Apagar
+	glShadeModel(GL_SMOOTH); //------------------------------Interpolacao de cores
 
-	glVertexPointer(3, GL_FLOAT, 0, vertices); //………………………………………Vertex arrays
+	initTexturas();			 //------------------------------Texturas
+
+	glEnable(GL_DEPTH_TEST); //------------------------------Profundidade
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices); //------------Vertex arrays
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glTexCoordPointer(2, GL_FLOAT, 0, texturas);   // coordenadas textura
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+}
+
+GLvoid resize(GLsizei width, GLsizei height)
+{
+	wScreen = width;
+	hScreen = height;
+	glViewport(0, 0, wScreen, hScreen);
+	glutPostRedisplay();
 }
 
 void drawEixos()
@@ -119,6 +174,22 @@ void drawEixos()
 	glVertex3i(0, 0, 0);
 	glVertex3i(0, 0, 10);
 	glEnd();
+}
+
+void drawEsfera()
+{
+	//------------------------- Esfera
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	glPushMatrix();
+		//glTranslatef(2, 4, 2);
+		glRotatef(-90, 1,0,0);
+		gluQuadricDrawStyle(esfera, GLU_FILL);
+		gluQuadricNormals(esfera, GLU_SMOOTH);
+		gluQuadricTexture(esfera, GL_TRUE);
+		gluSphere(esfera, 60.0, 100, 100);
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void drawCube()
@@ -233,6 +304,7 @@ void drawScene()
 
 	if (wheelsRotation) rotWheels = rotWheels + 2.5;
 
+
 	// ======== BASE
 	glPushMatrix();
 	glColor4f(RED);
@@ -262,6 +334,8 @@ void drawScene()
 	glRotatef(rotacao, 0.0, 1.0, 0.0);
 	drawWindows();
 	glPopMatrix();
+	
+	drawEsfera();
 }
 
 void display(void)
@@ -276,7 +350,7 @@ void display(void)
 	glLoadIdentity();
 	gluLookAt(obsP[0], obsP[1], obsP[2], 0, 0, 0, 0, 1, 0);
 
-	//…………………………………………………………………………………………………………………………………………………………Objectos
+//------------------------------------------------------------ Objetos
 	drawEixos();
 	drawScene();
 
@@ -303,7 +377,7 @@ void Timer(int value)
 	glutTimerFunc(msec, Timer, 1);
 }
 
-//======================================================= EVENTOS
+//------------------------------------------------------------ Eventos
 void keyboard(unsigned char key, int x, int y)
 {
 
@@ -399,8 +473,9 @@ void teclasNotAscii(int key, int x, int y)
 	glutPostRedisplay();
 }
 
-//======================================================= MAIN
-//======================================================= MAIN
+//=================================================================================
+//====================================== MAIN =====================================
+//=================================================================================
 int main(int argc, char **argv)
 {
 
@@ -413,6 +488,7 @@ int main(int argc, char **argv)
 	init();
 
 	glutSpecialFunc(teclasNotAscii);
+	glutReshapeFunc(resize);
 	glutDisplayFunc(display);
 	glutKeyboardFunc(keyboard);
 	glutTimerFunc(msec, Timer, 1);
