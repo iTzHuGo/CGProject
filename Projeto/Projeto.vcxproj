@@ -133,10 +133,6 @@
   <ItemGroup>
     <ClInclude Include="RgbImage.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="background.bmp" />
-    <Image Include="sky.bmp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

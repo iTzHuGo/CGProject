@@ -1,4 +1,10 @@
 ﻿  Projeto.cpp
-C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(91,26): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(91,53): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(86,26): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(86,53): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(119,28): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(119,34): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(119,40): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(120,28): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(120,34): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(120,40): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
   Projeto.vcxproj -> C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Debug\Projeto.exe

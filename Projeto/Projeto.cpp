@@ -1,6 +1,7 @@
-/*
+/*=================================================================================
 	Hugo Sobral de Barros - 2020234332
-*/
+	Projeto - Meta 2
+=================================================================================*/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,7 +20,7 @@
 #define GRAY 0.92, 0.92, 0.92, 1.0
 #define PI 3.14159
 
-//===========================================================Variaveis e constantes
+//--------------------------------- Variaveis e constantes
 
 float centrox = 0;
 float rotacao = 0;
@@ -60,6 +61,14 @@ static GLfloat vertices[] = {
 	tam, -tam, tam,	  // 23
 };
 
+static GLfloat texturas[] = {
+	//------------------------------- Cima
+	0, 0,
+	1, 0,
+	0, 1,
+	1, 1,
+};
+
 static GLuint esquerda[] = {0, 1, 2, 3};
 static GLuint direita[] = {4, 7, 6, 5};
 static GLuint cima[] = {8, 11, 10, 9};
@@ -67,23 +76,9 @@ static GLuint tras[] = {12, 13, 14, 15};
 static GLuint frente[] = {19, 18, 17, 16};
 static GLuint baixo[] = {20, 23, 22, 21};
 
-static GLfloat texturas[] = {
-0, 0, 
-1, 0, 
-1, 1, 
-0, 1, 
-0, 0,
-1, 0,
-1, 1,
-0, 1,
-0, 0,
-1, 0,
-1, 1,
-0, 1 };
-
 //------------------------------------------------------------ Sistema Coordenadas + objectos
 GLint wScreen = 800, hScreen = 600;		 //.. janela
-GLfloat xC = 10.0, yC = 10.0, zC = 10.0; //.. Mundo
+GLfloat xC = 100.0, yC = 100.0, zC = 100.0; //.. Mundo
 GLboolean frenteVisivel = 1;
 
 //------------------------------------------------------------ Observador
@@ -103,11 +98,11 @@ GLfloat incALT = 0.03;
 
 //------------------------------------------------------------ Texturas
 RgbImage imag;
+GLuint texture[2];
 
 //------------------------------------------------------------ Skybox
 GLUquadricObj* esfera = gluNewQuadric();
 
-GLuint texture[1];
 
 
 //=================================================================================
@@ -116,11 +111,11 @@ GLuint texture[1];
 
 void initTexturas()
 {
-	//----------------------------------------- Esfera - skybox envolvente
+	//----------------------------------------- topo
 	glGenTextures(1, &texture[0]);
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	imag.LoadBmpFile("sky.bmp");
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+	imag.LoadBmpFile("mari.bmp");
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -129,22 +124,44 @@ void initTexturas()
 		imag.GetNumCols(),
 		imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
 		imag.ImageData());
+		
+	// Fundo
+	glGenTextures(1, &texture[1]);
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
+	imag.LoadBmpFile("2.bmp");
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3,
+		imag.GetNumCols(),
+		imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+		imag.ImageData());
+
 }
 
-//------------------------------------------------------------ Inicializadores
 void init(void)
 {
-	glClearColor(WHITE);	 //------------------------------Apagar
-	glShadeModel(GL_SMOOTH); //------------------------------Interpolacao de cores
+	//------------------------------Apagar
+	glClearColor(WHITE);
 
-	initTexturas();			 //------------------------------Texturas
+	//------------------------------Interpolacao de cores
+	glShadeModel(GL_SMOOTH);
 
-	glEnable(GL_DEPTH_TEST); //------------------------------Profundidade
+	//------------------------------Texturas
+	initTexturas();
 
-	glVertexPointer(3, GL_FLOAT, 0, vertices); //------------Vertex arrays
+	//------------------------------Profundidade
+	glEnable(GL_DEPTH_TEST);
+	
+	//------------------------------Blending
+	glEnable(GL_BLEND);
+
+
+	//------------------------------Vertex arrays
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glTexCoordPointer(2, GL_FLOAT, 0, texturas);   // coordenadas textura
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 GLvoid resize(GLsizei width, GLsizei height)
@@ -152,8 +169,12 @@ GLvoid resize(GLsizei width, GLsizei height)
 	wScreen = width;
 	hScreen = height;
 	glViewport(0, 0, wScreen, hScreen);
-	glutPostRedisplay();
+	glutPostRedisplay();	
 }
+
+//=================================================================================
+//====================================== DRAW =====================================
+//=================================================================================
 
 void drawEixos()
 {
@@ -176,23 +197,21 @@ void drawEixos()
 	glEnd();
 }
 
-void drawEsfera()
-{
-	//------------------------- Esfera
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	glPushMatrix();
-		//glTranslatef(2, 4, 2);
-		glRotatef(-90, 1,0,0);
-		gluQuadricDrawStyle(esfera, GLU_FILL);
-		gluQuadricNormals(esfera, GLU_SMOOTH);
-		gluQuadricTexture(esfera, GL_TRUE);
-		gluSphere(esfera, 60.0, 100, 100);
-	glPopMatrix();
-	glDisable(GL_TEXTURE_2D);
+void drawEsfera() {
+    glColor4f(WHITE);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[1]);
+    glPushMatrix();
+    glRotatef(-90, 1, 0, 0);
+    gluQuadricDrawStyle(esfera, GLU_FILL);
+    gluQuadricNormals(esfera, GLU_SMOOTH);
+    gluQuadricTexture(esfera, GL_TRUE);
+    gluSphere(esfera, 60.0, 100, 100);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 }
 
-void drawCube()
+void drawCube() 
 {
 	glPushMatrix();
 	glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, esquerda);
@@ -207,7 +226,6 @@ void drawCube()
 void drawWheel()
 {
 	GLUquadricObj *q = gluNewQuadric();
-	// gluQuadricTexture(q, GL_TRUE);
 
 	gluQuadricDrawStyle(q, GLU_FLAT);
 	gluQuadricNormals(q, GLU_SMOOTH);
@@ -271,8 +289,10 @@ void drawWheels()
 
 void drawWindows()
 {
-	glColor4f(BLUE);
+	glColor4f(0.0, 1.0, 1.0, 0.5);
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 	glPushMatrix();
 	glTranslatef(.75, yWindows, 0);
 	glScalef(0.1, 0.5, 1.2);
@@ -284,13 +304,8 @@ void drawWindows()
 	glScalef(0.1, 0.5, 1.2);
 	drawCube();
 	glPopMatrix();
-}
 
-void desenhaTexto(char* string, GLfloat x, GLfloat y)
-{
-	glRasterPos2f(x, y);
-	while (*string)
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *string++);
+	glBlendFunc(GL_ONE, GL_ZERO);
 }
 
 void drawScene()
@@ -303,7 +318,6 @@ void drawScene()
 	else if (!windows && yWindows > 0.2) yWindows = yWindows - 0.01;
 
 	if (wheelsRotation) rotWheels = rotWheels + 2.5;
-
 
 	// ======== BASE
 	glPushMatrix();
@@ -320,7 +334,36 @@ void drawScene()
 	glRotatef(rotacao, 0.0, 1.0, 0.0);
 	glTranslatef(centrox, altura + .75, 0);
 	glScalef(1.5, .6, 2);
-	drawCube();
+	glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, esquerda);
+	glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, direita);
+	glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, tras);
+	glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, frente);
+	glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, baixo);
+
+	glColor4f(WHITE);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	glNormal3d(0, 1, 0);
+
+	glBegin(GL_QUADS);
+
+
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(tam, tam, -tam);
+
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(tam, tam, tam);
+
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(-tam, tam, tam);
+
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(-tam, tam, -tam);
+
+	glEnd();
+
+	glDisable(GL_TEXTURE_2D);
+
 	glPopMatrix();
 
 	// ========= WHEELS
@@ -334,8 +377,6 @@ void drawScene()
 	glRotatef(rotacao, 0.0, 1.0, 0.0);
 	drawWindows();
 	glPopMatrix();
-	
-	drawEsfera();
 }
 
 void display(void)
@@ -350,8 +391,8 @@ void display(void)
 	glLoadIdentity();
 	gluLookAt(obsP[0], obsP[1], obsP[2], 0, 0, 0, 0, 1, 0);
 
-//------------------------------------------------------------ Objetos
-	drawEixos();
+	drawEsfera();
+
 	drawScene();
 
 	//Vista contraria
@@ -364,8 +405,7 @@ void display(void)
 	glLoadIdentity();
 
 	gluLookAt(-obsP[0], obsP[1], -obsP[2], 0, 0, 0, 0, 1, 0);
-
-	drawEixos();
+	
 	drawScene();
 
 	glutSwapBuffers();
