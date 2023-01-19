@@ -21,9 +21,15 @@
     <ClCompile Include="RgbImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="materiais.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RgbImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="materiais.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

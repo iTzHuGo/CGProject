@@ -1,10 +1,14 @@
 ﻿  Projeto.cpp
 C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(86,26): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
 C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(86,53): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(119,28): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
-C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(119,34): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
-C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(119,40): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
-C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(120,28): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
-C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(120,34): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
-C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(120,40): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(140,28): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(140,34): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(140,40): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(141,28): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(141,34): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(141,40): warning C4838: conversion from 'GLint' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(151,30): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(152,29): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(154,32): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Projeto.cpp(155,31): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
   Projeto.vcxproj -> C:\Users\ugo\OneDrive - Universidade de Coimbra\3 Ano\Computação Gráfica\Projeto\Projeto\Debug\Projeto.exe
